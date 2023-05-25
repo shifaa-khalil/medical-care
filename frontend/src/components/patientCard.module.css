@@ -2,7 +2,7 @@
   height: 250px;
   display: flex;
   flex-direction: column;
-  background-color: var(--blue);
+  box-shadow: 5px 10px 5px var(--blue);
   flex-basis: 25%;
   /* height: 170px; */
   padding: 20px;

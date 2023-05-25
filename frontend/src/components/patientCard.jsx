@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./patientCard.module.css";
 const PatientCard = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={navigate("/")}>
       <div className={`medium ${styles.oneLine}`}>
         <span className={`bold ${styles.left}`}>Patient Name: </span>
         <span className={`normal ${styles.right}`}>John Doe</span>
