@@ -20,3 +20,27 @@
 .medium {
   font-size: 18px;
 }
+.btn-lg {
+  background-color: var(--blue);
+  width: 120px;
+  height: 30px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  margin-top: 50px;
+  align-self: center;
+}
+.btn-s {
+  background-color: var(--blue);
+  width: 60px;
+  height: 25px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  align-self: center;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./patientCard.module.css";
+
 const PatientCard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.card} onClick={navigate("/")}>
+    <div className={styles.card}>
       <div className={`medium ${styles.oneLine}`}>
         <span className={`bold ${styles.left}`}>Patient Name: </span>
         <span className={`normal ${styles.right}`}>John Doe</span>
@@ -17,7 +18,12 @@ const PatientCard = () => {
         <span className={`bold ${styles.left}`}>Patient's Case: </span>
         <span className={`normal ${styles.right}`}>heart attack</span>
       </div>
-      <p className={`normal ${styles.moreDetails}`}>More Details</p>
+      <p
+        className={`normal ${styles.moreDetails}`}
+        onClick={() => navigate("/patient")}
+      >
+        More Details
+      </p>
     </div>
   );
 };

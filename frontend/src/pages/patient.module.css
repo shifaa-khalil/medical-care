@@ -1,0 +1,24 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 10px 5px var(--fadedBlue);
+  width: 75%;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 15px;
+}
+.medications {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.back {
+  cursor: pointer;
+}
+.medicationsBody {
+  margin-bottom: 50px;
+}
