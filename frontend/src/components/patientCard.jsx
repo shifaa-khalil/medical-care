@@ -2,18 +2,18 @@ import styles from "./patientCard.module.css";
 const PatientCard = () => {
   return (
     <div className={styles.card}>
-      <p className="medium">
-        <span className="bold">Patient Name: </span>
-        <span className="normal">John Doe</span>
-      </p>
-      <p className="medium">
-        <span className="bold">Added in: </span>
-        <span className="normal">May-25-2023</span>
-      </p>
-      <p className="medium">
-        <span className="bold">Patient's Case: </span>
-        <span className="normal">heart attack</span>
-      </p>
+      <div className={`medium ${styles.oneLine}`}>
+        <span className={`bold ${styles.left}`}>Patient Name: </span>
+        <span className={`normal ${styles.right}`}>John Doe</span>
+      </div>
+      <div className={`medium ${styles.oneLine}`}>
+        <span className={`bold ${styles.left}`}>Added in: </span>
+        <span className={`normal ${styles.right}`}>May-25-2023</span>
+      </div>
+      <div className={`medium ${styles.oneLine}`}>
+        <span className={`bold ${styles.left}`}>Patient's Case: </span>
+        <span className={`normal ${styles.right}`}>heart attack</span>
+      </div>
       <p className={`normal ${styles.moreDetails}`}>More Details</p>
     </div>
   );
