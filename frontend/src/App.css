@@ -1,0 +1,21 @@
+:root {
+  --blue: #8ee9ef;
+}
+/* weight */
+.bold {
+  font-weight: bold;
+}
+.normal {
+  font-weight: 500;
+}
+/* color */
+.blue {
+  color: var(--blue);
+}
+/* size */
+.big {
+  font-size: 20px;
+}
+.medium {
+  font-size: 18px;
+}
