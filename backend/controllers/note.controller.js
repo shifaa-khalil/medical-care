@@ -14,12 +14,20 @@ exports.addNote = async (req, res) => {
 
     const recipient = await User.findOne({ _id: req.params.patient_id });
     const recipientEmail = recipient.email;
+    const recipientName = recipient.name;
 
     const caregiver = await User.findOne({ _id: req.user._id });
     const caregiverName = caregiver.name;
 
     const subject = "Note Added by " + caregiverName;
-    const content = note.content;
+    const content =
+      "Dear " +
+      recipientName +
+      ",\n\nA new note has been added for you!\nNote: " +
+      req.body.content +
+      "\nAdded by: " +
+      caregiverName +
+      "\n\nBest";
     mailController.sendNotificationEmail(recipientEmail, subject, content);
 
     res.json({

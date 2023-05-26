@@ -48,10 +48,8 @@ exports.dropMedication = async (req, res) => {
     const droppedMedication = await Medication.findOneAndDelete({
       _id: req.params.medication_id,
     }).exec();
-    console.log(droppedMedication);
-    if (droppedMedication) {
-      console.log(droppedMedication);
 
+    if (droppedMedication) {
       const recipient = await User.findOne({
         _id: droppedMedication.patient_id,
       });
