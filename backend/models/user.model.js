@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema({
     enum: ["patient", "caregiver"],
     default: "patient",
   },
+  dob: { type: Date, required: true },
+  patient_case: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 

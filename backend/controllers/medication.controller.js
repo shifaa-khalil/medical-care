@@ -12,7 +12,7 @@ exports.addMedication = async (req, res) => {
 
     res.json({
       message: "added successfully",
-      medication: medication,
+      medication,
     });
   } catch (error) {
     console.error(error);

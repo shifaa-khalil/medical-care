@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, dob, patient_case } = req.body;
   console.log(name);
   const existing_user = await User.findOne({ email });
 
@@ -13,8 +13,9 @@ exports.register = async (req, res) => {
   user.name = name;
   user.password = password;
   user.email = email;
-  user.role = role;
-
+  if (role) user.role = role;
+  user.dob = dob;
+  user.patient_case = patient_case;
   await user.save();
 
   const { password: hashed_password, ...new_user } = user.toJSON();
