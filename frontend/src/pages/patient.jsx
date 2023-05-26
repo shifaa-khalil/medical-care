@@ -1,5 +1,6 @@
 import styles from "./patient.module.css";
 import NavBar from "../components/navBar";
+import MyButton from "../components/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
@@ -26,23 +27,22 @@ const Patient = () => {
                   <span className={`bold medium`}>Morphine </span>
                   <span className={`normal medium`}>--one pill daily</span>
                 </p>
-                <button className="btn-s">drop</button>
+                <MyButton text="drop" style="blueButton" />
               </div>
               <div className="row">
                 <p>
                   <span className={`bold medium`}>Aspirin </span>
                   <span className={`normal medium`}>3mg weekly</span>
                 </p>
-                <button className="btn-s">drop</button>
+                <MyButton text="drop" style="blueButton" />
               </div>
-              <button className="btn-lg">add medication</button>
+              <MyButton text="add medication" style="blueButton" />
             </>
           ) : (
             <>
               <p className={styles.back} onClick={() => navigate("/")}>
                 back
               </p>
-
               <p className={`bold big ${styles.name}`}>John Doe</p>
               <p>
                 <span className={`bold medium`}>Gender: </span>
@@ -60,15 +60,16 @@ const Patient = () => {
                 <span className={`bold medium`}>Patient's Case: </span>
                 <span className={`normal medium`}>heart attack</span>
               </p>
-              <div className="row">
-                <p
-                  className={`normal medium ${styles.medications}`}
-                  onClick={() => setMedicationsIsVisible(true)}
-                >
-                  See medications
-                </p>
+              <p
+                className={`normal medium ${styles.medications}`}
+                onClick={() => setMedicationsIsVisible(true)}
+              >
+                See medications
+              </p>
+              <div className="btn-row">
+                <MyButton text="drop patient" style="blueButton" />
+                <MyButton text="add note" style="btn-shadow" />
               </div>
-              <button className="btn-lg">drop patient</button>
             </>
           )}
         </div>

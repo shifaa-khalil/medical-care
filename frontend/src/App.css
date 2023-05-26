@@ -20,27 +20,23 @@
 .medium {
   font-size: 18px;
 }
-.btn-lg {
-  background-color: var(--blue);
-  width: 120px;
-  height: 30px;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  margin-top: 50px;
-  align-self: center;
-}
-.btn-s {
-  background-color: var(--blue);
-  width: 60px;
-  height: 25px;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  align-self: center;
-}
 .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.btn-row {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  column-gap: 25px;
+}
+.blueButton {
+  background-color: var(--blue);
+  color: white;
+}
+.btn-shadow {
+  box-shadow: 5px 10px 5px var(--fadedBlue);
+  background-color: white;
+  color: var(--blue);
 }
