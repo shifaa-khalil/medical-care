@@ -11,7 +11,7 @@ const medicationSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
-  careGiver_id: {
+  caregiver_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
     required: true,

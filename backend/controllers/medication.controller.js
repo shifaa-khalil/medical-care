@@ -6,7 +6,7 @@ exports.addMedication = async (req, res) => {
       name: req.body.name,
       usage: req.body.usage,
       patient_id: req.params.patient_id,
-      careGiver_id: req.params.careGiver_id,
+      caregiver_id: req.user._id,
     });
 
     await medication.save();

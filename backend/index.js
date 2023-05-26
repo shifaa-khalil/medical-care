@@ -12,7 +12,7 @@ const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter);
 
 const medicationRouter = require("./routes/medication.routes");
-app.use("/medication", authMiddleware, medicationRouter);
+app.use("/", authMiddleware, medicationRouter);
 
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) console.error(err);
