@@ -8,8 +8,11 @@ const { authMiddleware } = require("./middlewares/auth.middleware");
 app.use(express.json());
 app.use(cors());
 
-const userRouter = require("./routes/user.routes");
-app.use("/user", authMiddleware, userRouter);
+const authRouter = require("./routes/auth.routes");
+app.use("/auth", authRouter);
+
+const medicationRouter = require("./routes/medication.routes");
+app.use("/medication", authMiddleware, medicationRouter);
 
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) console.error(err);
