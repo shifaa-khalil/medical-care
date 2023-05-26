@@ -1,4 +1,7 @@
 const Medication = require("../models/medication.model");
+const mailController = require("./mail.controller");
+const User = require("../models/user.model");
+
 exports.addMedication = async (req, res) => {
   try {
     const medication = new Medication({
@@ -9,6 +12,26 @@ exports.addMedication = async (req, res) => {
     });
 
     await medication.save();
+
+    const recipient = await User.findOne({ _id: req.params.patient_id });
+    const recipientEmail = recipient.email;
+    const recipientName = recipient.name;
+
+    const caregiver = await User.findOne({ _id: req.user._id });
+    const caregiverName = caregiver.name;
+
+    const subject = "Medication Added by " + caregiverName;
+    const content =
+      "Dear " +
+      recipientName +
+      ",\n\nA new medication has been added for you!\nMedication: " +
+      req.body.name +
+      "\nUsage: " +
+      req.body.usage +
+      "\nAdded by: " +
+      caregiverName +
+      "\n\nBest";
+    mailController.sendNotificationEmail(recipientEmail, subject, content);
 
     res.json({
       message: "added successfully",
@@ -21,15 +44,40 @@ exports.addMedication = async (req, res) => {
 };
 
 exports.dropMedication = async (req, res) => {
-  Medication.findOneAndDelete({ _id: req.params.medication_id })
-    .exec()
-    .then((droppedMedication) => {
-      if (droppedMedication)
-        res.json({ message: "medication dropped", droppedMedication });
-      else res.json({ message: "medication not found" });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-    });
+  try {
+    const droppedMedication = await Medication.findOneAndDelete({
+      _id: req.params.medication_id,
+    }).exec();
+    console.log(droppedMedication);
+    if (droppedMedication) {
+      console.log(droppedMedication);
+
+      const recipient = await User.findOne({
+        _id: droppedMedication.patient_id,
+      });
+      const recipientEmail = recipient.email;
+      const recipientName = recipient.name;
+
+      const caregiver = await User.findOne({ _id: req.user._id });
+      const caregiverName = caregiver.name;
+
+      const subject = "Medication dropped by " + caregiverName;
+      const content =
+        "Dear " +
+        recipientName +
+        ",\n\nA medication has been dropped!\nMedication: " +
+        droppedMedication.name +
+        "\nDropped by: " +
+        caregiverName +
+        "\n\nBest";
+      mailController.sendNotificationEmail(recipientEmail, subject, content);
+
+      res.json({ message: "Medication dropped", droppedMedication });
+    } else {
+      res.json({ message: "Medication not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };

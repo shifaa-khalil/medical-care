@@ -5,7 +5,7 @@ const User = require("../models/user.model");
 exports.addNote = async (req, res) => {
   try {
     const note = new Note({
-      content: req.body.name,
+      content: req.body.content,
       patient_id: req.params.patient_id,
       caregiver_id: req.user._id,
     });
@@ -14,11 +14,13 @@ exports.addNote = async (req, res) => {
 
     const recipient = await User.findOne({ _id: req.params.patient_id });
     const recipientEmail = recipient.email;
-    console.log(recipientEmail);
-    const subject = "Note";
+
+    const caregiver = await User.findOne({ _id: req.user._id });
+    const caregiverName = caregiver.name;
+
+    const subject = "Note Added by " + caregiverName;
     const content = note.content;
     mailController.sendNotificationEmail(recipientEmail, subject, content);
-    console.log(recipientEmail, subject, content);
 
     res.json({
       message: "added successfully",
