@@ -1,26 +1,26 @@
 const nodemailer = require("nodemailer");
 
-// Create a transporter using SMTP transport
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com", // e.g., "smtp.gmail.com" for Gmail
-  port: 587, // Specify the port based on your SMTP provider
-  secure: false, // Set to true if using a secure connection (e.g., SSL/TLS)
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: "shifaakhalil50@gmail.com", // Your email address
-    pass: "nkwtlekkxizwvcnc", // Your email password or app-specific password
+    user: "shifaakhalil50@gmail.com",
+    pass: "nkwtlekkxizwvcnc",
   },
 });
 
-// Function to send a notification email
 exports.sendNotificationEmail = (recipientEmail, subject, content) => {
   const mailOptions = {
-    from: "shifaakhalil50@gmail.com", // Sender's email address
-    to: recipientEmail, // Recipient's email address
-    subject: subject, // Email subject
-    text: content, // Plain text body
+    from: "shifaakhalil50@gmail.com",
+    to: recipientEmail,
+    subject: subject,
+    text: content,
+    //     html: `
+    //     <a href="" style="text-decoration: none;">Login</a>
+    //   `,
   };
 
-  // Send the email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email:", error);
