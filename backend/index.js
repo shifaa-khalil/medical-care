@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const connectDB = require("./configs/db.config");
 const { authMiddleware } = require("./middlewares/auth.middleware");
+const { caregiverMiddleware } = require("./middlewares/caregiver.middleware");
 
 app.use(express.json());
 app.use(cors());
@@ -13,6 +14,9 @@ app.use("/auth", authRouter);
 
 const medicationRouter = require("./routes/medication.routes");
 app.use("/", authMiddleware, medicationRouter);
+
+const patientRouter = require("./routes/patient.routes");
+app.use("/", caregiverMiddleware, patientRouter);
 
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) console.error(err);
