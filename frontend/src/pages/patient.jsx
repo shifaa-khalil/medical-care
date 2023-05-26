@@ -1,16 +1,17 @@
 import styles from "./patient.module.css";
 import NavBar from "../components/navBar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Patient = () => {
   const [medicationsIsVisible, setMedicationsIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
       <NavBar />
       <div className={styles.body}>
-        <p className={styles.back}>back</p>
         <div className={styles.card}>
           {medicationsIsVisible ? (
             <>
@@ -38,6 +39,10 @@ const Patient = () => {
             </>
           ) : (
             <>
+              <p className={styles.back} onClick={() => navigate("/")}>
+                back
+              </p>
+
               <p className={`bold big ${styles.name}`}>John Doe</p>
               <p>
                 <span className={`bold medium`}>Gender: </span>

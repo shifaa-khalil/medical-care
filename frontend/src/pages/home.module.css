@@ -4,7 +4,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  /* row-gap: 2%; */
   align-items: center;
 }
 .body {
@@ -12,5 +11,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  column-gap: 25px;
+  column-gap: 70px;
+}
+.more {
+  align-self: center;
+  justify-self: center;
+  margin-bottom: 70px;
+  cursor: pointer;
 }
