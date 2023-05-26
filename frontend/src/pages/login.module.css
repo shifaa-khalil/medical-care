@@ -1,14 +1,29 @@
 .body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .form {
-  height: 250px;
+  /* height: 250px; */
   display: flex;
   flex-direction: column;
   box-shadow: 5px 10px 5px var(--fadedBlue);
+  border-left: 3px solid var(--fadedBlue);
   width: 35%;
   padding: 20px;
   margin-bottom: 70px;
   border-radius: 15px;
+}
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  align-self: center;
+  margin-top: 30px;
+}
+.btnRow span {
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
 }

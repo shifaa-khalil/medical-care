@@ -8,3 +8,11 @@
   align-items: center;
   justify-content: flex-end;
 }
+.logout {
+  cursor: pointer;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

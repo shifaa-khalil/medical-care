@@ -40,3 +40,6 @@
   background-color: white;
   color: var(--blue);
 }
+.error {
+  color: red;
+}

@@ -11,6 +11,9 @@ const Home = () => {
       <div className={styles.body}>
         <PatientCard />
         <PatientCard />
+        <PatientCard />
+        <PatientCard />
+        <PatientCard />
         {expanded && (
           <>
             <PatientCard />

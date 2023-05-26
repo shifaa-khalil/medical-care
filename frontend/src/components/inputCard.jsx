@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./input.module.css";
+import styles from "./inputCard.module.css";
 
 const InputCard = (props) => {
   const navigate = useNavigate();

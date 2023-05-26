@@ -3,6 +3,7 @@
   height: 30px;
   border-radius: 10px;
   border: none;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   align-self: center;
+  cursor: pointer;
 }
