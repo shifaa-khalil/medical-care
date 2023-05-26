@@ -14,8 +14,8 @@ exports.register = async (req, res) => {
   user.password = password;
   user.email = email;
   if (role) user.role = role;
-  user.dob = dob;
-  user.patient_case = patient_case;
+  if (dob) user.dob = dob;
+  if (patient_case) user.patient_case = patient_case;
   await user.save();
 
   const { password: hashed_password, ...new_user } = user.toJSON();
@@ -30,14 +30,17 @@ exports.login = async (req, res) => {
   if (!existing_user)
     return res.status(404).json({ message: "Invalid credentials" });
 
-  const is_matched = existing_user.matchPassword(password);
+  const is_matched = await existing_user.matchPassword(password);
+  console.log(is_matched);
   if (!is_matched)
     return res.status(404).json({ message: "Invalid credentials" });
+  console.log(is_matched);
 
   const token = jwt.sign(
     { id: existing_user._id, email: existing_user.email },
     process.env.SECRET_KEY
   );
+  console.log(is_matched);
 
   res.json({ token });
 };

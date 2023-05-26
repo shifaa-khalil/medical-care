@@ -1,4 +1,5 @@
 const Note = require("../models/note.model");
+const mailController = require("./mail.controller");
 
 exports.addNote = async (req, res) => {
   try {
@@ -8,7 +9,13 @@ exports.addNote = async (req, res) => {
       caregiver_id: req.user._id,
     });
 
-    await note.save();
+    // await note.save();
+
+    const recipientEmail = "shifaakhalil192@gmail.com";
+    const subject = "Note";
+    const content = "Please do not change the dosage";
+    mailController.sendNotificationEmail(recipientEmail, subject, content);
+    console.log(recipientEmail, subject, content);
 
     res.json({
       message: "added successfully",

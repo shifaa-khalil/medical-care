@@ -18,6 +18,9 @@ app.use("/", authMiddleware, medicationRouter);
 const patientRouter = require("./routes/patient.routes");
 app.use("/", caregiverMiddleware, patientRouter);
 
+const noteRouter = require("./routes/note.routes");
+app.use("/", caregiverMiddleware, noteRouter);
+
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) console.error(err);
   console.log("Server is running on port ", process.env.PORT || 3000);
