@@ -1,0 +1,14 @@
+.body {
+  display: flex;
+  justify-content: center;
+}
+.form {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 10px 5px var(--fadedBlue);
+  width: 35%;
+  padding: 20px;
+  margin-bottom: 70px;
+  border-radius: 15px;
+}
