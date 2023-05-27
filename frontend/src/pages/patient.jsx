@@ -2,6 +2,7 @@ import styles from "./patient.module.css";
 import NavBar from "../components/navBar";
 import MyButton from "../components/button";
 import NoteForm from "../components/noteForm";
+import MedicationCard from "../components/medicationCard";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -15,9 +16,35 @@ const Patient = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
   const [noteFormVisible, setNoteFormVisible] = useState(false);
+  const [medicationFormVisible, setMedicationFormVisible] = useState(false);
   const [note, setNote] = useState("");
+  const [medicationName, setMedicationName] = useState("");
+  const [medicationUsage, setMedicationUsage] = useState("");
   const [error, setError] = useState("");
   const { patient_id } = useParams();
+
+  const addMedication = () => {
+    if (!medicationName || !medicationUsage)
+      setError("All fields are required");
+    else {
+      const data = { name: medicationName, usage: medicationUsage };
+      console.log(data);
+      axios
+        .post(`http://localhost:3000/medication/${patient_id}`, data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setMedicationName("");
+          setMedicationUsage("");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   const handleNoteChange = (e) => {
     setNote(e.target.value);
@@ -104,21 +131,29 @@ const Patient = () => {
                   >
                     &#x2190;
                   </p>
-                  <div className="row">
-                    <p>
-                      <span className={`bold medium`}>Morphine </span>
-                      <span className={`normal medium`}>--one pill daily</span>
-                    </p>
-                    <MyButton text="drop" style="blueButton" />
-                  </div>
-                  <div className="row">
-                    <p>
-                      <span className={`bold medium`}>Aspirin </span>
-                      <span className={`normal medium`}>3mg weekly</span>
-                    </p>
-                    <MyButton text="drop" style="blueButton" />
-                  </div>
-                  <MyButton text="add medication" style="blueButton" />
+                  <MedicationCard
+                    medicationName="Morphin"
+                    medicationUsage="one pill daily"
+                    onDrop={() => console.log("dropped")}
+                  />
+                  <MyButton
+                    text="add medication"
+                    style="blueButton"
+                    onClick={() => setMedicationFormVisible(true)}
+                  />
+                  {medicationFormVisible && (
+                    <div className={styles.modal}>
+                      <div className={styles.modalContent}>
+                        {error && <p className="error bold medium">{error}</p>}
+                        <NoteForm
+                          value={note}
+                          onChange={handleNoteChange}
+                          onSubmit={handleSubmitNote}
+                          onCancel={handleCancelNote}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
