@@ -1,6 +1,7 @@
 const { Router } = require("express");
-const { addNote } = require("../controllers/note.controller");
 const { caregiverMiddleware } = require("./middlewares/caregiver.middleware");
+const { patientMiddleware } = require("./middlewares/patient.middleware");
+const { addNote, getNotes } = require("../controllers/note.controller");
 
 const router = Router();
 
