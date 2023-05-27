@@ -16,7 +16,7 @@ const NavBar = () => {
     <div className={styles.bar}>
       {userName ? (
         <div className={styles.column}>
-          <span className="medium">Welcome, {userName.split(" ")[0]}</span>
+          <span className="big">Welcome, {userName.split(" ")[0]}</span>
           <span className={styles.logout} onClick={handleLogout}>
             Logout
           </span>

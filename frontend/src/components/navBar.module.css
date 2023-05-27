@@ -10,6 +10,7 @@
 }
 .logout {
   cursor: pointer;
+  text-decoration: underline;
 }
 .column {
   display: flex;

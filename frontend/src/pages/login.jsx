@@ -47,12 +47,6 @@ const Login = () => {
       <NavBar />
       <div className={styles.body}>
         <div className={styles.form}>
-          {/* <InputCard
-            label="Name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          /> */}
           <InputCard
             label="Email"
             type="email"

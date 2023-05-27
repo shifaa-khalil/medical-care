@@ -1,22 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./patientCard.module.css";
 
-const PatientCard = () => {
+const PatientCard = (props) => {
   const navigate = useNavigate();
 
   return (
     <div className={styles.card}>
       <div className={`medium ${styles.oneLine}`}>
         <span className={`bold ${styles.left}`}>Patient Name: </span>
-        <span className={`normal ${styles.right}`}>John Doe</span>
+        <span className={`normal ${styles.right}`}>{props.name}</span>
       </div>
       <div className={`medium ${styles.oneLine}`}>
         <span className={`bold ${styles.left}`}>Added in: </span>
-        <span className={`normal ${styles.right}`}>May-25-2023</span>
+        <span className={`normal ${styles.right}`}>{props.added_in}</span>
       </div>
       <div className={`medium ${styles.oneLine}`}>
         <span className={`bold ${styles.left}`}>Patient's Case: </span>
-        <span className={`normal ${styles.right}`}>heart attack</span>
+        <span className={`normal ${styles.right}`}>{props.patient_case}</span>
       </div>
       <p
         className={`normal ${styles.moreDetails}`}
