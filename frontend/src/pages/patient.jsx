@@ -191,6 +191,7 @@ const Patient = () => {
                           medicationName={m.name}
                           medicationUsage={m.usage}
                           onDrop={() => handleDropMedication(m._id)}
+                          onEdit={() => handleDropMedication(m._id)}
                         />
                       ))
                     ) : (

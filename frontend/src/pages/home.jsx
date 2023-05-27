@@ -48,7 +48,7 @@ const Home = () => {
           <div className={styles.body}>
             {patients ? (
               <>
-                {patients.slice(0, 5).map((p) => (
+                {patients.slice(0, 4).map((p) => (
                   <PatientCard
                     key={p._id}
                     name={p.name}
@@ -57,10 +57,10 @@ const Home = () => {
                     patient_id={p._id}
                   />
                 ))}
-                {patients.length > 5 &&
+                {patients.length > 4 &&
                   expanded &&
                   patients
-                    .slice(5)
+                    .slice(4)
                     .map((p) => (
                       <PatientCard
                         key={p._id}
@@ -70,14 +70,16 @@ const Home = () => {
                         patient_id={p._id}
                       />
                     ))}
-                <p
-                  className={`bold blue big ${styles.more}`}
-                  onClick={() => {
-                    expanded ? setExpanded(false) : setExpanded(true);
-                  }}
-                >
-                  {expanded ? "See less" : "See more ->"}
-                </p>
+                {patients.length > 4 ? (
+                  <p
+                    className={`bold blue big ${styles.more}`}
+                    onClick={() => {
+                      expanded ? setExpanded(false) : setExpanded(true);
+                    }}
+                  >
+                    {expanded ? "See less" : "See more ->"}
+                  </p>
+                ) : null}
               </>
             ) : (
               <p>no data</p>
