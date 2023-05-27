@@ -41,6 +41,10 @@ const Patient = () => {
           setMedicationName("");
           setMedicationUsage("");
           setMedicationFormVisible(false);
+          alert(
+            `Medication for patient "${patient.name}" is added successfully!\nThey will be notified by an email.`
+          );
+          window.location.reload();
         })
         .catch((error) => {
           console.error(error);
@@ -55,9 +59,22 @@ const Patient = () => {
     setMedicationFormVisible(false);
   };
 
-  const handleNoteChange = (e) => {
-    setNote(e.target.value);
-    setError("");
+  const handleDropMedication = (medication_id) => {
+    axios
+      .delete(`http://localhost:3000/medication/${medication_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        alert(
+          `Medication for patient "${patient.name}" is dropped successfully!\nThey will be notified by an email.`
+        );
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleSubmitNote = () => {
@@ -74,6 +91,9 @@ const Patient = () => {
         .then((response) => {
           setNoteFormVisible(false);
           setNote("");
+          alert(
+            `Note for patient "${patient.name}" is added successfully!\nThey will be notified by an email.`
+          );
         })
         .catch((error) => {
           console.error(error);
@@ -107,7 +127,6 @@ const Patient = () => {
 
   useEffect(() => {
     if (medicationsIsVisible) {
-      setIsLoading(true);
       axios
         .get(`http://localhost:3000/medications/${patient_id}`, {
           headers: {
@@ -115,8 +134,7 @@ const Patient = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
-          setIsLoading(false);
+          setMedications(response.data);
         })
         .catch((error) => {
           console.error(error);
@@ -136,17 +154,31 @@ const Patient = () => {
             <div className={styles.card}>
               {medicationsIsVisible ? (
                 <>
-                  <p
-                    className={styles.back}
-                    onClick={() => setMedicationsIsVisible(false)}
-                  >
-                    &#x2190;
-                  </p>
-                  <MedicationCard
-                    medicationName="Morphin"
-                    medicationUsage="one pill daily"
-                    onDrop={() => console.log("dropped")}
-                  />
+                  <div className={styles.patientHeader}>
+                    <span
+                      className={styles.back}
+                      onClick={() => setMedicationsIsVisible(false)}
+                    >
+                      &#x2190;
+                    </span>
+                    <span className={`bold big ${styles.name}`}>
+                      {patient.name}
+                    </span>
+                  </div>
+                  <div className={styles.details}>
+                    {medications ? (
+                      medications.map((m) => (
+                        <MedicationCard
+                          key={m._id}
+                          medicationName={m.name}
+                          medicationUsage={m.usage}
+                          onDrop={() => handleDropMedication(m._id)}
+                        />
+                      ))
+                    ) : (
+                      <p>no data</p>
+                    )}
+                  </div>
                   <MyButton
                     text="add medication"
                     style="blueButton"
@@ -161,13 +193,19 @@ const Patient = () => {
                           label="Medication name"
                           type="text"
                           value={medicationName}
-                          onChange={(e) => setMedicationName(e.target.value)}
+                          onChange={(e) => {
+                            setMedicationName(e.target.value);
+                            setError("");
+                          }}
                         />
                         <InputCard
                           label="Medication usage"
                           type="text"
                           value={medicationUsage}
-                          onChange={(e) => setMedicationUsage(e.target.value)}
+                          onChange={(e) => {
+                            setMedicationUsage(e.target.value);
+                            setError("");
+                          }}
                         />
                         <div className={styles.btnRow}>
                           <MyButton
@@ -197,7 +235,7 @@ const Patient = () => {
                       {patient.name}
                     </span>
                   </div>
-                  <div className={styles.patientDetails}>
+                  <div className={styles.details}>
                     <KeyValuePairInline label="Gender" value={patient.gender} />
                     <KeyValuePairInline
                       label="Date of Birth"
@@ -232,7 +270,10 @@ const Patient = () => {
                         {error && <p className="error bold medium">{error}</p>}
                         <NoteForm
                           value={note}
-                          onChange={handleNoteChange}
+                          onChange={(e) => {
+                            setNote(e.target.value);
+                            setError("");
+                          }}
                           onSubmit={handleSubmitNote}
                           onCancel={handleCancelNote}
                         />
