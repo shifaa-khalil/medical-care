@@ -25,6 +25,24 @@ const Patient = () => {
   const [error, setError] = useState("");
   const { patient_id } = useParams();
 
+  const handleDropPatient = (patient_id) => {
+    axios
+      .delete(`http://localhost:3000/patient/${patient_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        alert(
+          `Patient "${patient.name}" is dropped successfully!\nThey will be notified by an email.`
+        );
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const handleSubmitMedication = () => {
     if (!medicationName || !medicationUsage)
       setError("All fields are required");
@@ -257,7 +275,11 @@ const Patient = () => {
                     />
                   </div>
                   <div className="btn-row">
-                    <MyButton text="drop patient" style="blueButton" />
+                    <MyButton
+                      text="drop patient"
+                      style="blueButton"
+                      onClick={() => handleDropPatient(patient_id)}
+                    />
                     <MyButton
                       text="add note"
                       style="btn-shadow"
