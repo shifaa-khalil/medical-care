@@ -27,6 +27,10 @@ const Home = () => {
         })
         .catch((error) => {
           console.error(error);
+          if (error.response) {
+            if (error.response.data.message == "Unauthorized")
+              navigate("/noaccess");
+          }
         });
     } else navigate("/login");
   }, [token]);
