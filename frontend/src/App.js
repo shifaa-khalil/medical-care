@@ -5,16 +5,18 @@ import Patient from "./pages/patient";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import NoAccess from "./pages/noAccess";
+import NotFound from "./pages/notFound";
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/noaccess" element={<NoAccess />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/patient/:patient_id" element={<Patient />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/noaccess" element={<NoAccess />} />
       </Routes>
     </Router>
   );

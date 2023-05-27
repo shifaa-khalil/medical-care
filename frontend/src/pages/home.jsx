@@ -32,7 +32,10 @@ const Home = () => {
               navigate("/noaccess");
           }
         });
-    } else navigate("/login");
+    } else {
+      alert("You are not logged in!");
+      navigate("/login");
+    }
   }, [token]);
 
   return (
