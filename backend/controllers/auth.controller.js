@@ -57,5 +57,6 @@ exports.login = async (req, res) => {
     process.env.SECRET_KEY
   );
 
-  res.json({ token, user: existing_user });
+  const { password: hashed_password, ...new_user } = existing_user.toJSON();
+  res.json({ token, user: new_user });
 };

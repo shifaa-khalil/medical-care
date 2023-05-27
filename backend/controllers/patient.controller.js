@@ -3,6 +3,7 @@ const mailController = require("./mail.controller");
 
 exports.getPatients = async (req, res) => {
   User.find({ role: "patient" })
+    .select("-password")
     .exec()
     .then((patients) => {
       res.json(patients);

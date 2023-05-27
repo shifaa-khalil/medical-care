@@ -22,6 +22,7 @@ const Home = () => {
         })
         .then((response) => {
           setPatients(response.data);
+          console.log(response.data);
           setIsLoading(false);
         })
         .catch((error) => {

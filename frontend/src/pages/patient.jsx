@@ -2,27 +2,28 @@ import styles from "./patient.module.css";
 import NavBar from "../components/navBar";
 import MyButton from "../components/button";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
 
 const Patient = () => {
   const [medicationsIsVisible, setMedicationsIsVisible] = useState(false);
   const navigate = useNavigate();
-  const [patients, setPatients] = useState();
+  const [patient, setPatient] = useState();
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
+  const { patient_id } = useParams();
 
   useEffect(() => {
     if (token) {
       axios
-        .get(`http://localhost:3000/patients`, {
+        .get(`http://localhost:3000/patient`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          console.log(response.data.patients);
+          setPatient(response.data);
           setIsLoading(false);
         })
         .catch((error) => {
