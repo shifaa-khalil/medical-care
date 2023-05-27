@@ -46,6 +46,8 @@ const Login = () => {
     <div className={styles.container}>
       <NavBar />
       <div className={styles.body}>
+        <p className="blue bold big">Login</p>
+        {error && <p className="error bold medium">{error}</p>}
         <div className={styles.form}>
           <InputCard
             label="Email"

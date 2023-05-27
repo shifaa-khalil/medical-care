@@ -27,3 +27,13 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.gender {
+  width: 250px;
+  height: 30px;
+  border-radius: 10px;
+  border: 3px solid var(--fadedBlue);
+  padding: 5px 15px;
+}
+.genderContainer {
+  align-self: center;
+}

@@ -15,6 +15,7 @@ const Register = () => {
   const [dob, setDob] = useState("");
   const [patient_case, setPatientCase] = useState("");
   const [role, setRole] = useState("");
+  const [gender, setGender] = useState("male");
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -23,7 +24,7 @@ const Register = () => {
     if (!name || !email || !password || !dob || !patient_case)
       return setError("All fields are required");
 
-    const data = { name, email, password, dob, patient_case };
+    const data = { name, email, password, dob, gender, patient_case };
     try {
       const response = await axios.post(
         `http://localhost:3000/auth/register`,
@@ -56,6 +57,7 @@ const Register = () => {
 
   useEffect(() => {
     setError("");
+    console.log(gender);
   }, [name, email, password, dob, patient_case]);
 
   return (
@@ -89,6 +91,17 @@ const Register = () => {
             value={dob}
             onChange={(e) => setDob(e.target.value)}
           />
+          <div className={styles.genderContainer}>
+            <p className={`normal medium`}>Gender</p>
+            <select
+              className={styles.gender}
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="male">male</option>
+              <option value="female">female</option>
+            </select>
+          </div>
           <InputCard
             label="Medical case"
             type="text"
@@ -101,7 +114,7 @@ const Register = () => {
               style="blueButton"
               onClick={handleSubmit}
             />
-            <span onClick={() => navigate("/register")}>Login instead</span>
+            <span onClick={() => navigate("/login")}>Login instead</span>
           </div>
         </div>
       </div>

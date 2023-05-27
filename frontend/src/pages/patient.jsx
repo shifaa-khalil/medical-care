@@ -17,7 +17,7 @@ const Patient = () => {
   useEffect(() => {
     if (token) {
       axios
-        .get(`http://localhost:3000/patient`, {
+        .get(`http://localhost:3000/patient/${patient_id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const Patient = () => {
                   <p className={styles.back} onClick={() => navigate("/")}>
                     back
                   </p>
-                  <p className={`bold big ${styles.name}`}>John Doe</p>
+                  <p className={`bold big ${styles.name}`}>{patient.name}</p>
                   <p>
                     <span className={`bold medium`}>Gender: </span>
                     <span className={`normal medium`}>Male</span>

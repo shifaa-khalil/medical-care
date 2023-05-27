@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
-  const { name, email, password, role, dob, patient_case } = req.body;
+  const { name, email, password, role, dob, gender, patient_case } = req.body;
   console.log(name);
   const existing_user = await User.findOne({ email });
 
@@ -28,6 +28,7 @@ exports.register = async (req, res) => {
   if (role) user.role = role;
   if (dob) user.dob = dob;
   if (patient_case) user.patient_case = patient_case;
+  user.gender = gender;
   await user.save();
 
   const token = jwt.sign(

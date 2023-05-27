@@ -15,7 +15,7 @@ exports.getPatients = async (req, res) => {
 };
 
 exports.getPatient = async (req, res) => {
-  User.find({ role: "patient", _id: req.params.patient_id })
+  User.findOne({ _id: req.params.patient_id })
     .exec()
     .then((patient) => {
       res.json(patient);
