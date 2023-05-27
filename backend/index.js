@@ -19,7 +19,7 @@ const patientRouter = require("./routes/patient.routes");
 app.use("/", caregiverMiddleware, patientRouter);
 
 const noteRouter = require("./routes/note.routes");
-app.use("/", caregiverMiddleware, noteRouter);
+app.use("/", noteRouter);
 
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) console.error(err);

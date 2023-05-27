@@ -94,9 +94,11 @@ exports.dropMedication = async (req, res) => {
 
 exports.editMedication = async (req, res) => {
   try {
+    const { name, usage } = req.body;
+
     const updatedMedication = await Medication.findOneAndUpdate(
       { _id: req.params.medication_id },
-      { $set: req.body.data },
+      { name, usage },
       { new: true }
     );
 
@@ -105,41 +107,36 @@ exports.editMedication = async (req, res) => {
     } else {
       console.log("Medication doesn't exist");
     }
-    // const medication = new Medication({
-    //   name: req.body.name,
-    //   usage: req.body.usage,
-    //   patient_id: req.params.patient_id,
-    //   caregiver_id: req.user._id,
-    // });
 
-    // await medication.save();
+    const medication = await Medication.findOne({
+      _id: req.params.medication_id,
+    });
+    const recipient = await User.findOne({ _id: medication.patient_id });
+    const recipientEmail = recipient.email;
+    const recipientName = recipient.name;
 
-    // const recipient = await User.findOne({ _id: req.params.patient_id });
-    // const recipientEmail = recipient.email;
-    // const recipientName = recipient.name;
+    const caregiver = await User.findOne({ _id: req.user._id });
+    const caregiverName = caregiver.name;
 
-    // const caregiver = await User.findOne({ _id: req.user._id });
-    // const caregiverName = caregiver.name;
-
-    // const subject = "Medication Added by " + caregiverName;
-    // const content =
-    //   "Dear " +
-    //   recipientName +
-    //   ",\n\nA new medication has been added for you!\nMedication: " +
-    //   req.body.name +
-    //   "\nUsage: " +
-    //   req.body.usage +
-    //   "\nAdded by: " +
-    //   caregiverName +
-    //   "\n\nBest";
-    // mailController.sendNotificationEmail(recipientEmail, subject, content);
+    const subject = "Medication Updated by " + caregiverName;
+    const content =
+      "Dear " +
+      recipientName +
+      ",\n\nA medication medication has been updated for you!\nMedication: " +
+      req.body.name +
+      "\nUsage: " +
+      req.body.usage +
+      "\nAdded by: " +
+      caregiverName +
+      "\n\nBest";
+    mailController.sendNotificationEmail(recipientEmail, subject, content);
 
     res.json({
-      message: "added successfully",
+      message: "updated successfully",
       updatedMedication,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Could not add medication" });
+    res.status(500).json({ error: "Could not update medication" });
   }
 };

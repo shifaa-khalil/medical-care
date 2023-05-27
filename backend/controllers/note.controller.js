@@ -39,3 +39,15 @@ exports.addNote = async (req, res) => {
     res.status(500).json({ error: "Could not add note" });
   }
 };
+
+exports.getNotes = async (req, res) => {
+  Note.find({ patient_id: req.user._id })
+    .exec()
+    .then((notes) => {
+      res.json(notes);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+};

@@ -22,6 +22,8 @@ const Patient = () => {
   const [note, setNote] = useState("");
   const [medicationName, setMedicationName] = useState("");
   const [medicationUsage, setMedicationUsage] = useState("");
+  const [medicationAction, setMedicationAction] = useState("add");
+  const [medicationId, setMedicationId] = useState("");
   const [error, setError] = useState("");
   const { patient_id } = useParams();
 
@@ -75,6 +77,29 @@ const Patient = () => {
     setMedicationUsage("");
     setError("");
     setMedicationFormVisible(false);
+  };
+
+  const handleEditMedication = (medication_id) => {
+    if (!medicationName || !medicationUsage)
+      setError("All fields are required");
+    else {
+      const data = { name: medicationName, usage: medicationUsage };
+      axios
+        .put(`http://localhost:3000/medication/${medication_id}`, data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          alert(
+            `Medication for patient "${patient.name}" is updated successfully!\nThey will be notified by an email.`
+          );
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const handleDropMedication = (medication_id) => {
@@ -191,7 +216,13 @@ const Patient = () => {
                           medicationName={m.name}
                           medicationUsage={m.usage}
                           onDrop={() => handleDropMedication(m._id)}
-                          onEdit={() => handleDropMedication(m._id)}
+                          onEdit={() => {
+                            setMedicationFormVisible(true);
+                            setMedicationId(m._id);
+                            setMedicationName(m.name);
+                            setMedicationUsage(m.usage);
+                            setMedicationAction("edit");
+                          }}
                         />
                       ))
                     ) : (
@@ -201,7 +232,10 @@ const Patient = () => {
                   <MyButton
                     text="add medication"
                     style="blueButton"
-                    onClick={() => setMedicationFormVisible(true)}
+                    onClick={() => {
+                      setMedicationFormVisible(true);
+                      setMedicationAction("add");
+                    }}
                   />
 
                   {medicationFormVisible && (
@@ -230,7 +264,11 @@ const Patient = () => {
                           <MyButton
                             text="Submit"
                             style="blueButton"
-                            onClick={handleSubmitMedication}
+                            onClick={
+                              medicationAction == "edit"
+                                ? () => handleEditMedication(medicationId)
+                                : handleSubmitMedication
+                            }
                           />
                           <span
                             className={`bold normal`}
