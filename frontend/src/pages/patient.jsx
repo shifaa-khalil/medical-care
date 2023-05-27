@@ -3,6 +3,8 @@ import NavBar from "../components/navBar";
 import MyButton from "../components/button";
 import NoteForm from "../components/noteForm";
 import MedicationCard from "../components/medicationCard";
+import KeyValuePairInline from "../components/keyValuePairInline";
+import InputCard from "../components/inputCard";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +25,7 @@ const Patient = () => {
   const [error, setError] = useState("");
   const { patient_id } = useParams();
 
-  const addMedication = () => {
+  const handleSubmitMedication = () => {
     if (!medicationName || !medicationUsage)
       setError("All fields are required");
     else {
@@ -36,14 +38,21 @@ const Patient = () => {
           },
         })
         .then((response) => {
-          console.log(response);
           setMedicationName("");
           setMedicationUsage("");
+          setMedicationFormVisible(false);
         })
         .catch((error) => {
           console.error(error);
         });
     }
+  };
+
+  const handleCancelMedication = () => {
+    setMedicationName("");
+    setMedicationUsage("");
+    setError("");
+    setMedicationFormVisible(false);
   };
 
   const handleNoteChange = (e) => {
@@ -55,7 +64,7 @@ const Patient = () => {
     if (note == "") setError("Cannot be empty!");
     else {
       const data = { content: note };
-      console.log(data);
+
       axios
         .post(`http://localhost:3000/note/${patient_id}`, data, {
           headers: {
@@ -74,25 +83,26 @@ const Patient = () => {
 
   const handleCancelNote = () => {
     setNote("");
+    setError("");
     setNoteFormVisible(false);
   };
 
   useEffect(() => {
-    // if (token) {
-    axios
-      .get(`http://localhost:3000/patient/${patient_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setPatient(response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // } else navigate("/login");
+    if (token) {
+      axios
+        .get(`http://localhost:3000/patient/${patient_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setPatient(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else navigate("/login");
   }, [token]);
 
   useEffect(() => {
@@ -120,6 +130,7 @@ const Patient = () => {
         <p>Loading</p>
       ) : (
         <>
+          {/* patient medications */}
           <NavBar />
           <div className={styles.body}>
             <div className={styles.card}>
@@ -141,21 +152,42 @@ const Patient = () => {
                     style="blueButton"
                     onClick={() => setMedicationFormVisible(true)}
                   />
+
                   {medicationFormVisible && (
                     <div className={styles.modal}>
                       <div className={styles.modalContent}>
                         {error && <p className="error bold medium">{error}</p>}
-                        <NoteForm
-                          value={note}
-                          onChange={handleNoteChange}
-                          onSubmit={handleSubmitNote}
-                          onCancel={handleCancelNote}
+                        <InputCard
+                          label="Medication name"
+                          type="text"
+                          value={medicationName}
+                          onChange={(e) => setMedicationName(e.target.value)}
                         />
+                        <InputCard
+                          label="Medication usage"
+                          type="text"
+                          value={medicationUsage}
+                          onChange={(e) => setMedicationUsage(e.target.value)}
+                        />
+                        <div className={styles.btnRow}>
+                          <MyButton
+                            text="Submit"
+                            style="blueButton"
+                            onClick={handleSubmitMedication}
+                          />
+                          <span
+                            className={`bold normal`}
+                            onClick={handleCancelMedication}
+                          >
+                            Cancel
+                          </span>
+                        </div>
                       </div>
                     </div>
                   )}
                 </>
               ) : (
+                // patient details
                 <>
                   <div className={styles.patientHeader}>
                     <span className={styles.back} onClick={() => navigate("/")}>
@@ -166,34 +198,25 @@ const Patient = () => {
                     </span>
                   </div>
                   <div className={styles.patientDetails}>
-                    <p>
-                      <span className={`bold medium`}>Gender: </span>
-                      <span className={`normal medium`}>{patient.gender}</span>
-                    </p>
-                    <p>
-                      <span className={`bold medium`}>Date of Birth: </span>
-                      <span className={`normal medium`}>
-                        {patient.dob.split("T")[0]}
-                      </span>
-                    </p>
-                    <p>
-                      <span className={`bold medium`}>Added in: </span>
-                      <span className={`normal medium`}>
-                        {patient.createdAt.split("T")[0]}
-                      </span>
-                    </p>
-                    <p>
-                      <span className={`bold medium`}>Patient's Case: </span>
-                      <span className={`normal medium`}>
-                        {patient.patient_case}
-                      </span>
-                    </p>
-                    <p onClick={() => setMedicationsIsVisible(true)}>
-                      <span className={`bold medium`}>Medications: </span>
-                      <span className={`normal medium ${styles.medications}`}>
-                        here
-                      </span>
-                    </p>
+                    <KeyValuePairInline label="Gender" value={patient.gender} />
+                    <KeyValuePairInline
+                      label="Date of Birth"
+                      value={patient.dob.split("T")[0]}
+                    />
+                    <KeyValuePairInline
+                      label="Added in"
+                      value={patient.createdAt.split("T")[0]}
+                    />
+                    <KeyValuePairInline
+                      label="Patient's Case"
+                      value={patient.patient_case}
+                    />
+                    <KeyValuePairInline
+                      label="Medications"
+                      value="here"
+                      valueStyle={styles.medications}
+                      onClick={() => setMedicationsIsVisible(true)}
+                    />
                   </div>
                   <div className="btn-row">
                     <MyButton text="drop patient" style="blueButton" />

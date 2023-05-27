@@ -27,11 +27,10 @@
   align-items: center;
 }
 .patientDetails {
-  margin-left: 53px;
+  margin: 30px 0 50px 53px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
-  /* row-gap: 10px; */
+  row-gap: 10px;
 }
 .medicationsBody {
   margin-bottom: 50px;
@@ -43,7 +42,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,13 +57,24 @@
   padding: 20px;
   border-radius: 15px;
 }
-
 .closeButton {
-  /* position: absolute; */
   top: 10px;
   right: 10px;
   border: none;
   background-color: transparent;
   cursor: pointer;
   font-weight: bold;
+}
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  align-self: center;
+  margin-top: 30px;
+}
+.btnRow span {
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
 }

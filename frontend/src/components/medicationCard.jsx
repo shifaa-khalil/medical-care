@@ -2,7 +2,6 @@ import MyButton from "./button";
 
 const MedicationCard = (props) => {
   return (
-    // <div className={styles.card}>
     <div className="row">
       <p>
         <span className={`bold medium`}>{props.medicationName} </span>
@@ -10,7 +9,6 @@ const MedicationCard = (props) => {
       </p>
       <MyButton text="drop" style="blueButton" onClick={props.onDrop} />
     </div>
-    // </div>
   );
 };
 
