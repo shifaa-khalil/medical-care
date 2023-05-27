@@ -23,7 +23,6 @@ const Patient = () => {
         })
         .then((response) => {
           console.log(response.data.patients);
-          console.log(patients);
           setIsLoading(false);
         })
         .catch((error) => {

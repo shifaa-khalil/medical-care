@@ -13,6 +13,18 @@ exports.getPatients = async (req, res) => {
     });
 };
 
+exports.getPatient = async (req, res) => {
+  User.find({ role: "patient", _id: req.params.patient_id })
+    .exec()
+    .then((patient) => {
+      res.json(patient);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+};
+
 exports.dropPatient = async (req, res) => {
   try {
     const droppedPatient = await User.findOneAndDelete({

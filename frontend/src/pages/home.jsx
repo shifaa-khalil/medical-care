@@ -46,6 +46,7 @@ const Home = () => {
                     name={p.name}
                     added_in={p.createdAt.split("T")[0]}
                     patient_case={p.patient_case}
+                    patient_id={p._id}
                   />
                 ))}
                 {patients.length > 5 &&
@@ -58,6 +59,7 @@ const Home = () => {
                         name={p.name}
                         added_in={p.createdAt.split("T")[0]}
                         patient_case={p.patient_case}
+                        patient_id={p._id}
                       />
                     ))}
                 <p

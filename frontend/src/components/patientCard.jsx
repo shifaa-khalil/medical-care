@@ -1,26 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./patientCard.module.css";
+import KeyValuePair from "./keyValuePair";
 
 const PatientCard = (props) => {
   const navigate = useNavigate();
 
   return (
     <div className={styles.card}>
-      <div className={`medium ${styles.oneLine}`}>
-        <span className={`bold ${styles.left}`}>Patient Name: </span>
-        <span className={`normal ${styles.right}`}>{props.name}</span>
-      </div>
-      <div className={`medium ${styles.oneLine}`}>
-        <span className={`bold ${styles.left}`}>Added in: </span>
-        <span className={`normal ${styles.right}`}>{props.added_in}</span>
-      </div>
-      <div className={`medium ${styles.oneLine}`}>
-        <span className={`bold ${styles.left}`}>Patient's Case: </span>
-        <span className={`normal ${styles.right}`}>{props.patient_case}</span>
-      </div>
+      <KeyValuePair label="Patient Name: " value={props.name} />
+      <KeyValuePair label="Added in: " value={props.added_in} />
+      <KeyValuePair label="Patient's Case: " value={props.patient_case} />
       <p
         className={`normal ${styles.moreDetails}`}
-        onClick={() => navigate("/patient")}
+        onClick={() => navigate(`/patient/${props.patient_id}`)}
       >
         More Details
       </p>

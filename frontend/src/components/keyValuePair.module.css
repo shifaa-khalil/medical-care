@@ -1,0 +1,11 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .left {
+    align-self: flex-start;
+  }
+  .right {
+    align-self: flex-end;
+  }
