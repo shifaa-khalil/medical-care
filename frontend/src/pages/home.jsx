@@ -28,7 +28,7 @@ const Home = () => {
         .catch((error) => {
           console.error(error);
         });
-    } else navigate("/signin");
+    } else navigate("/login");
   }, [token]);
 
   return (

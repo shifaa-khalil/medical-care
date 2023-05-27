@@ -2,6 +2,18 @@ const Medication = require("../models/medication.model");
 const mailController = require("./mail.controller");
 const User = require("../models/user.model");
 
+exports.getMedications = async (req, res) => {
+  Medication.find({ patient_id: req.params.patient_id })
+    .exec()
+    .then((medications) => {
+      res.json(medications);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+};
+
 exports.addMedication = async (req, res) => {
   try {
     const medication = new Medication({

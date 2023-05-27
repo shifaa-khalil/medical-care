@@ -1,0 +1,24 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 15px;
+}
+.textarea {
+  height: 150px;
+  width: 250px;
+  margin-bottom: 30px;
+}
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  align-self: center;
+  /* margin-top: 30px; */
+}
+.btnRow span {
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
