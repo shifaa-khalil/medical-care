@@ -14,6 +14,18 @@ exports.getMedications = async (req, res) => {
     });
 };
 
+exports.getMyMedications = async (req, res) => {
+  Medication.find({ patient_id: req.user._id })
+    .exec()
+    .then((medications) => {
+      res.json(medications);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+};
+
 exports.addMedication = async (req, res) => {
   try {
     const medication = new Medication({

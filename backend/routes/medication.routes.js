@@ -4,9 +4,12 @@ const {
   addMedication,
   editMedication,
   dropMedication,
+  getMyMedications,
 } = require("../controllers/medication.controller");
 
 const router = Router();
+
+router.get("/medications", getMyMedications);
 
 router.get("/medications/:patient_id", getMedications);
 router.post("/medication/:patient_id", addMedication);

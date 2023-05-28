@@ -19,8 +19,6 @@ const PatientProfile = () => {
   const [error, setError] = useState("");
   const { patient_id } = useParams();
   const patient = JSON.parse(localStorage.getItem("userData"));
-  console.log(patient);
-  console.log(patient._id);
 
   //   useEffect(() => {
   //     if (token) {
@@ -40,22 +38,22 @@ const PatientProfile = () => {
   //     } else navigate("/login");
   //   }, [token]);
 
-  //   useEffect(() => {
-  //     if (medicationsIsVisible) {
-  //       axios
-  //         .get(`http://localhost:3000/medications/${patient_id}`, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         })
-  //         .then((response) => {
-  //           setMedications(response.data);
-  //         })
-  //         .catch((error) => {
-  //           console.error(error);
-  //         });
-  //     }
-  //   }, [medicationsIsVisible]);
+  useEffect(() => {
+    if (medicationsIsVisible) {
+      axios
+        .get(`http://localhost:3000/medications`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setMedications(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [medicationsIsVisible]);
 
   return (
     <div className={styles.container}>
@@ -80,20 +78,20 @@ const PatientProfile = () => {
                       Medications
                     </span>
                   </div>
-                  {/* <div className={styles.details}>
+                  <div className={styles.details}>
                     {medications ? (
                       medications.map((m) => (
                         <MedicationCard
                           key={m._id}
                           medicationName={m.name}
                           medicationUsage={m.usage}
-                          
+                          buttonStyle="hideButton"
                         />
                       ))
                     ) : (
                       <p>no data</p>
                     )}
-                  </div> */}
+                  </div>
                 </>
               ) : (
                 // patient details
@@ -125,6 +123,12 @@ const PatientProfile = () => {
                       value="here"
                       valueStyle={styles.medications}
                       onClick={() => setMedicationsIsVisible(true)}
+                    />
+                    <KeyValuePairInline
+                      label="Notes"
+                      value="here"
+                      valueStyle={styles.medications}
+                      // onClick={() => setNotesIsVisible(true)}
                     />
                   </div>
                   {/* <div className="btn-row">
