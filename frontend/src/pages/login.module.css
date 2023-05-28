@@ -4,7 +4,6 @@
   align-items: center;
 }
 .form {
-  /* height: 250px; */
   display: flex;
   flex-direction: column;
   box-shadow: 5px 10px 5px var(--fadedBlue);

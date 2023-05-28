@@ -15,7 +15,6 @@
   align-items: center;
   width: 250px;
   align-self: center;
-  /* margin-top: 30px; */
 }
 .btnRow span {
   color: var(--blue);

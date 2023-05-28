@@ -1,5 +1,4 @@
 import MyButton from "./button";
-import styles from "./medicationCard.module.css";
 
 const MedicationCard = (props) => {
   return (
