@@ -1,0 +1,9 @@
+.noteContent {
+  display: flex;
+  column-gap: 5px;
+  flex-basis: 85%;
+}
+.card {
+  padding-right: 40px;
+  align-items: flex-start;
+}

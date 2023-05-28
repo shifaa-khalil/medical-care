@@ -29,7 +29,8 @@ const Home = () => {
           console.error(error);
           if (error.response) {
             if (error.response.data.message == "Unauthorized")
-              navigate("/noaccess");
+              navigate("/noaccess", { replace: true });
+            else if(error.response.data.message == "Unauthenticated")  navigate("/login");
           }
         });
     } else {

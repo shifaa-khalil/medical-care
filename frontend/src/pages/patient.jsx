@@ -164,6 +164,10 @@ const Patient = () => {
         })
         .catch((error) => {
           console.error(error);
+          if (error.response) {
+            if (error.response.data.message == "Unauthorized")
+              navigate("/noaccess", { replace: true });
+          }
         });
     } else navigate("/login");
   }, [token]);
@@ -181,6 +185,10 @@ const Patient = () => {
         })
         .catch((error) => {
           console.error(error);
+          if (error.response) {
+            if (error.response.data.message == "Unauthorized")
+              navigate("/noaccess", { replace: true });
+          }
         });
     }
   }, [medicationsIsVisible]);

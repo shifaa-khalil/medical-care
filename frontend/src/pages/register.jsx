@@ -30,10 +30,8 @@ const Register = () => {
         `http://localhost:3000/auth/register`,
         data
       );
-      console.log(response);
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.user.role);
-      localStorage.setItem("name", response.data.user.name);
+      localStorage.setItem("userData", JSON.stringify(response.data.user));
       setRole(response.data.user.role);
     } catch (error) {
       if (error.response) {
@@ -51,7 +49,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (role == "patient") console.log("patient");
+    if (role == "patient") navigate("/patientprofile");
     else if (role == "caregiver") navigate("/");
   }, [role]);
 

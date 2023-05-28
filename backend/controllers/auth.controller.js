@@ -59,5 +59,7 @@ exports.login = async (req, res) => {
   );
 
   const { password: hashed_password, ...new_user } = existing_user.toJSON();
+  req.user = new_user;
+  console.log(req.user);
   res.json({ token, user: new_user });
 };

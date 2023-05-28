@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styles from "./navBar.module.css";
 
 const NavBar = () => {
-  const userName = localStorage.getItem("name");
   const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
+  const user = JSON.parse(localStorage.getItem("userData"));
+
+  useEffect(() => {
+    if (user) setUserName(user.name);
+    else setUserName("");
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("name");
-    localStorage.removeItem("role");
+    localStorage.removeItem("userData");
     navigate("/login");
   };
 
