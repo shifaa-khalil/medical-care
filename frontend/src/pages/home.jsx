@@ -4,6 +4,7 @@ import NavBar from "../components/navBar";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const [expanded, setExpanded] = useState(false);
@@ -11,6 +12,7 @@ const Home = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (token) {
@@ -30,23 +32,28 @@ const Home = () => {
           if (error.response) {
             if (error.response.data.message == "Unauthorized")
               navigate("/noaccess", { replace: true });
-            else if(error.response.data.message == "Unauthenticated")  navigate("/login");
+            else if (error.response.data.message == "Unauthenticated")
+              navigate("/");
           }
         });
     } else {
       alert("You are not logged in!");
-      navigate("/login");
+      navigate("/");
     }
   }, [token]);
 
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <p>Loading</p>
+        <div className="container">
+          <div className="spinner"></div>
+        </div>
       ) : (
         <>
           <NavBar />
-          <div className={styles.body}>
+          <div
+            className={`${styles.body} ${i18n.language == "ar" && styles.rtl}`}
+          >
             {patients ? (
               <>
                 {patients.slice(0, 4).map((p) => (
@@ -78,12 +85,12 @@ const Home = () => {
                       expanded ? setExpanded(false) : setExpanded(true);
                     }}
                   >
-                    {expanded ? "See less" : "See more ->"}
+                    {expanded ? t("lesspatients") : t("morepatients") + " ->"}
                   </p>
                 ) : null}
               </>
             ) : (
-              <p>no data</p>
+              <p>{t("nodata")}</p>
             )}
           </div>
         </>

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
+import { useTranslation } from "react-i18next";
 
 const PatientProfile = () => {
   const [medicationsIsVisible, setMedicationsIsVisible] = useState(false);
@@ -17,6 +18,7 @@ const PatientProfile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(false);
   const patient = JSON.parse(localStorage.getItem("userData"));
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (token && medicationsIsVisible) {
@@ -42,6 +44,8 @@ const PatientProfile = () => {
 
   useEffect(() => {
     if (token && NotesIsVisible) {
+      setIsLoading(false);
+
       axios
         .get(`http://localhost:3000/notes`, {
           headers: {
@@ -65,13 +69,21 @@ const PatientProfile = () => {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <p>Loading</p>
+        <div className="container">
+          <div className="spinner"></div>
+        </div>
       ) : (
         <>
           {/* patient medications */}
           <NavBar />
-          <div className={styles.body}>
-            <div className={styles.card}>
+          <div
+            className={`${styles.body} ${i18n.language == "ar" && styles.rtl}`}
+          >
+            <div
+              className={`${styles.card} ${
+                i18n.language == "ar" && styles.rtl
+              }`}
+            >
               {medicationsIsVisible ? (
                 <>
                   <div className={styles.patientHeader}>
@@ -79,10 +91,14 @@ const PatientProfile = () => {
                       className={styles.back}
                       onClick={() => setMedicationsIsVisible(false)}
                     >
-                      &#x2190;
+                      {i18n.language == "ar" ? (
+                        <span>&#x2192;</span>
+                      ) : (
+                        <span>&#x2190;</span>
+                      )}
                     </span>
                     <span className={`bold big ${styles.name}`}>
-                      Medications
+                      {t("medications")}
                     </span>
                   </div>
                   <div className={styles.details}>
@@ -96,7 +112,7 @@ const PatientProfile = () => {
                         />
                       ))
                     ) : (
-                      <p>no data</p>
+                      <p>{t("nodata")}</p>
                     )}
                   </div>
                 </>
@@ -108,12 +124,18 @@ const PatientProfile = () => {
                       className={styles.back}
                       onClick={() => setNotesIsVisible(false)}
                     >
-                      &#x2190;
+                      {i18n.language == "ar" ? (
+                        <span>&#x2192;</span>
+                      ) : (
+                        <span>&#x2190;</span>
+                      )}
                     </span>
-                    <span className={`bold big ${styles.name}`}>Notes</span>
+                    <span className={`bold big ${styles.name}`}>
+                      {t("notes")}
+                    </span>
                   </div>
                   <div className={styles.details}>
-                    {notes ? (
+                    {notes.length > 0 ? (
                       notes.map((n, i) => (
                         <NoteCard
                           key={n._id}
@@ -123,7 +145,7 @@ const PatientProfile = () => {
                         />
                       ))
                     ) : (
-                      <p>no data</p>
+                      <p>{t("nodata")}</p>
                     )}
                   </div>
                 </>
@@ -131,27 +153,35 @@ const PatientProfile = () => {
                 // patient details
                 <>
                   <div className={styles.patientHeader}>
-                    <span className={`bold big ${styles.name}`}>Profile</span>
+                    <span className={`bold big ${styles.name}`}>
+                      {t("profile")}
+                    </span>
                   </div>
                   <div className={styles.details}>
-                    <KeyValuePairInline label="Name" value={patient.name} />
-
-                    <KeyValuePairInline label="Gender" value={patient.gender} />
                     <KeyValuePairInline
-                      label="Date of Birth"
+                      label={t("name")}
+                      value={patient.name}
+                    />
+
+                    <KeyValuePairInline
+                      label={t("gender")}
+                      value={patient.gender}
+                    />
+                    <KeyValuePairInline
+                      label={t("dob")}
                       value={patient.dob.split("T")[0]}
                     />
                     <KeyValuePairInline
-                      label="Added in"
+                      label={t("addedin")}
                       value={patient.createdAt.split("T")[0]}
                     />
                     <KeyValuePairInline
-                      label="Medical Case"
+                      label={t("medicalcase")}
                       value={patient.patient_case}
                     />
                     <KeyValuePairInline
-                      label="Medications"
-                      value="here"
+                      label={t("medications")}
+                      value={t("here")}
                       valueStyle={styles.medications}
                       onClick={() => {
                         setMedicationsIsVisible(true);
@@ -159,8 +189,8 @@ const PatientProfile = () => {
                       }}
                     />
                     <KeyValuePairInline
-                      label="Notes"
-                      value="here"
+                      label={t("notes")}
+                      value={t("here")}
                       valueStyle={styles.medications}
                       onClick={() => {
                         setNotesIsVisible(true);

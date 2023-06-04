@@ -34,5 +34,10 @@
   padding: 5px 15px;
 }
 .genderContainer {
+  display: flex;
+  flex-direction: column;
   align-self: center;
+}
+.rtl {
+  direction: rtl;
 }

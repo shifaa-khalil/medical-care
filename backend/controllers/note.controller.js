@@ -42,7 +42,6 @@ exports.addNote = async (req, res) => {
 
 exports.getNotes = async (req, res) => {
   Note.find({ patient_id: req.user._id })
-    .exec()
     .then((notes) => {
       res.json(notes);
     })

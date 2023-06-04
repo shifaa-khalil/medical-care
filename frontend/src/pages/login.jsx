@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,31 +40,37 @@ const Login = () => {
 
   useEffect(() => {
     if (role == "patient") navigate("/patientprofile");
-    else if (role == "caregiver") navigate("/");
+    else if (role == "caregiver") navigate("/home");
   }, [role]);
 
   return (
     <div className={styles.container}>
       <NavBar />
-      <div className={styles.body}>
-        <p className="blue bold big">Login</p>
+      <div className={`${styles.body} ${i18n.language == "ar" && styles.rtl}`}>
+        <p className="blue bold big">{t("login")}</p>
         {error && <p className="error bold medium">{error}</p>}
         <div className={styles.form}>
           <InputCard
-            label="Email"
+            label={t("email")}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <InputCard
-            label="password"
+            label={t("password")}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className={styles.btnRow}>
-            <MyButton text="Login" style="blueButton" onClick={handleSubmit} />
-            <span onClick={() => navigate("/register")}>register instead</span>
+            <MyButton
+              text={t("login")}
+              style="blueButton"
+              onClick={handleSubmit}
+            />
+            <span onClick={() => navigate("/register")}>
+              {t("registerinstead")}
+            </span>
           </div>
         </div>
       </div>

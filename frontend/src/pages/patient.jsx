@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
+import { useTranslation } from "react-i18next";
 
 const Patient = () => {
   const [medicationsIsVisible, setMedicationsIsVisible] = useState(false);
@@ -26,6 +27,7 @@ const Patient = () => {
   const [medicationId, setMedicationId] = useState("");
   const [error, setError] = useState("");
   const { patient_id } = useParams();
+  const { t, i18n } = useTranslation();
 
   const handleDropPatient = (patient_id) => {
     axios
@@ -38,7 +40,7 @@ const Patient = () => {
         alert(
           `Patient "${patient.name}" is dropped successfully!\nThey will be notified by an email.`
         );
-        navigate("/");
+        navigate("/home");
       })
       .catch((error) => {
         console.error(error);
@@ -169,7 +171,7 @@ const Patient = () => {
               navigate("/noaccess", { replace: true });
           }
         });
-    } else navigate("/login");
+    } else navigate("/");
   }, [token]);
 
   useEffect(() => {
@@ -196,12 +198,16 @@ const Patient = () => {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <p>Loading</p>
+        <div className="container">
+          <div className="spinner"></div>
+        </div>
       ) : (
         <>
           {/* patient medications */}
           <NavBar />
-          <div className={styles.body}>
+          <div
+            className={`${styles.body} ${i18n.language == "ar" && styles.rtl}`}
+          >
             <div className={styles.card}>
               {medicationsIsVisible ? (
                 <>
@@ -210,7 +216,11 @@ const Patient = () => {
                       className={styles.back}
                       onClick={() => setMedicationsIsVisible(false)}
                     >
-                      &#x2190;
+                      {i18n.language == "ar" ? (
+                        <span>&#x2192;</span>
+                      ) : (
+                        <span>&#x2190;</span>
+                      )}
                     </span>
                     <span className={`bold big ${styles.name}`}>
                       {patient.name}
@@ -234,11 +244,11 @@ const Patient = () => {
                         />
                       ))
                     ) : (
-                      <p>no data</p>
+                      <p>{t("nodata")}</p>
                     )}
                   </div>
                   <MyButton
-                    text="add medication"
+                    text={t("addmedication")}
                     style="blueButton"
                     onClick={() => {
                       setMedicationFormVisible(true);
@@ -251,7 +261,7 @@ const Patient = () => {
                       <div className={styles.modalContent}>
                         {error && <p className="error bold medium">{error}</p>}
                         <InputCard
-                          label="Medication name"
+                          label={t("medicationname")}
                           type="text"
                           value={medicationName}
                           onChange={(e) => {
@@ -260,7 +270,7 @@ const Patient = () => {
                           }}
                         />
                         <InputCard
-                          label="Medication usage"
+                          label={t("medicationusage")}
                           type="text"
                           value={medicationUsage}
                           onChange={(e) => {
@@ -270,7 +280,7 @@ const Patient = () => {
                         />
                         <div className={styles.btnRow}>
                           <MyButton
-                            text="Submit"
+                            text={t("submit")}
                             style="blueButton"
                             onClick={
                               medicationAction == "edit"
@@ -282,7 +292,7 @@ const Patient = () => {
                             className={`bold normal`}
                             onClick={handleCancelMedication}
                           >
-                            Cancel
+                            {t("cancel")}
                           </span>
                         </div>
                       </div>
@@ -293,42 +303,52 @@ const Patient = () => {
                 // patient details
                 <>
                   <div className={styles.patientHeader}>
-                    <span className={styles.back} onClick={() => navigate("/")}>
-                      &#x2190;
+                    <span
+                      className={styles.back}
+                      onClick={() => navigate("/home")}
+                    >
+                      {i18n.language == "ar" ? (
+                        <span>&#x2192;</span>
+                      ) : (
+                        <span>&#x2190;</span>
+                      )}
                     </span>
                     <span className={`bold big ${styles.name}`}>
                       {patient.name}
                     </span>
                   </div>
                   <div className={styles.details}>
-                    <KeyValuePairInline label="Gender" value={patient.gender} />
                     <KeyValuePairInline
-                      label="Date of Birth"
+                      label={t("gender")}
+                      value={t(patient.gender)}
+                    />
+                    <KeyValuePairInline
+                      label={t("dob")}
                       value={patient.dob.split("T")[0]}
                     />
                     <KeyValuePairInline
-                      label="Added in"
+                      label={t("addedin")}
                       value={patient.createdAt.split("T")[0]}
                     />
                     <KeyValuePairInline
-                      label="Patient's Case"
+                      label={t("patientcase")}
                       value={patient.patient_case}
                     />
                     <KeyValuePairInline
-                      label="Medications"
-                      value="here"
+                      label={t("medications")}
+                      value={t("here")}
                       valueStyle={styles.medications}
                       onClick={() => setMedicationsIsVisible(true)}
                     />
                   </div>
                   <div className="btn-row">
                     <MyButton
-                      text="drop patient"
+                      text={t("droppatient")}
                       style="blueButton"
                       onClick={() => handleDropPatient(patient_id)}
                     />
                     <MyButton
-                      text="add note"
+                      text={t("addnote")}
                       style="btn-shadow"
                       onClick={() => setNoteFormVisible(true)}
                     />

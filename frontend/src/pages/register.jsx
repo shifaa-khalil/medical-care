@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Register = () => {
   const [role, setRole] = useState("");
   const [gender, setGender] = useState("male");
   const [error, setError] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,7 +52,7 @@ const Register = () => {
 
   useEffect(() => {
     if (role == "patient") navigate("/patientprofile");
-    else if (role == "caregiver") navigate("/");
+    else if (role == "caregiver") navigate("/home");
   }, [role]);
 
   useEffect(() => {
@@ -61,58 +63,62 @@ const Register = () => {
   return (
     <div className={styles.container}>
       <NavBar />
-      <div className={styles.body}>
-        <p className="blue bold big">Create Account</p>
+      <div className={`${styles.body} ${i18n.language == "ar" && styles.rtl}`}>
+        <p className="blue bold big">{t("createaccount")}</p>
         {error && <p className="error bold medium">{error}</p>}
         <div className={styles.form}>
           <InputCard
-            label="Name"
+            label={t("name")}
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <InputCard
-            label="Email"
+            label={t("email")}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <InputCard
-            label="password"
+            label={t("password")}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputCard
-            label="Date of birth"
+            label={t("dob")}
             type="date"
             value={dob}
             onChange={(e) => setDob(e.target.value)}
           />
           <div className={styles.genderContainer}>
-            <p className={`normal medium`}>Gender</p>
+            <p
+              className={`normal medium ${i18n.language == "ar" && styles.rtl}`}
+            >
+              {t("gender")}
+            </p>
             <select
               className={styles.gender}
               value={gender}
               onChange={(e) => setGender(e.target.value)}
             >
-              <option value="male">male</option>
-              <option value="female">female</option>
+              <option value="male">{t("male")}</option>
+              <option value="female">{t("female")}</option>
             </select>
           </div>
           <InputCard
-            label="Medical case"
+            label={t("medicalcase")}
             type="text"
             value={patient_case}
             onChange={(e) => setPatientCase(e.target.value)}
           />
           <div className={styles.btnRow}>
             <MyButton
-              text="Register"
+              text={t("register")}
               style="blueButton"
               onClick={handleSubmit}
             />
-            <span onClick={() => navigate("/login")}>Login instead</span>
+            <span onClick={() => navigate("/")}>{t("logininstead")}</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,9 @@
 import MyButton from "./button";
+import { useTranslation } from "react-i18next";
 
 const MedicationCard = (props) => {
+  const { t, i18n } = useTranslation();
+
   return (
     <div className="row">
       <p>
@@ -9,12 +12,12 @@ const MedicationCard = (props) => {
       </p>
       <div className="btn-row">
         <MyButton
-          text="edit"
+          text={t("editmedication")}
           style={`btn-shadow ${props.buttonStyle}`}
           onClick={props.onEdit}
         />
         <MyButton
-          text="drop"
+          text={t("dropmedication")}
           style={`blueButton ${props.buttonStyle}`}
           onClick={props.onDrop}
         />
